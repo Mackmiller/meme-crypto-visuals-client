@@ -27,6 +27,7 @@ const App = () => {
         // coinData is in array element 1, not 0.
         // 0 has info about your api call
 				console.log('this is coin data', coinData[1]);
+        setCoins(coinData[1])
 			})
 			.catch(err => console.log(err))
 	}
