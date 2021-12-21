@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 const axios = require('axios')
 const Home = () => {
     
-    let [coins, setCoins] = useState()
+    let [coins, setCoins] = useState([])
 	let url = "http://localhost:8000"
 
   // run api call once
@@ -14,10 +14,9 @@ const Home = () => {
                 setCoins(coinData)
             })
             .catch(err => console.log(err))
-	}, [url])
+	}, [])
 
-    const allCoins = 
-        coins.map((c, i)=>{
+    const allCoins = coins.map((c, i)=>{
         // e.preventDefault()
         return (
             <li key={i} style={{listStyle: "none"}}>
