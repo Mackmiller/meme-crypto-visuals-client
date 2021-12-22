@@ -49,7 +49,8 @@ const Home = () => {
         // establishing each key/value pair:
         const name = c.name
         const symbol = c.symbol
-        const capacity = c.quote.USD.market_cap;
+        const capacity = c.quote.USD.market_cap
+        // const capacityFormatted = new Intl.NumberFormat().format(c.quote.USD.market_cap);
         const updated = c.quote.USD.last_updated;
         return (
             {name, capacity, updated, symbol}
@@ -112,7 +113,10 @@ const Home = () => {
                             domain={[1, "auto"]}
                             scale="log"
                             orientation="left"
-                            name="Market Capacity"/>
+                            name="Market Capacity"
+                            tickFormatter={tick => {
+                                return tick.toLocaleString();
+                              }}/>
                 <Tooltip labelFormatter={(name) => 'Name: '+name} formatter={(capacity) =>'(Total Market Value) $'+capacity} />
                 <Legend />
                 <Bar dataKey="capacity" fill="#8884d8" />
