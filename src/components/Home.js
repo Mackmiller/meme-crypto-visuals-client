@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import {
     BarChart,
     Bar,
+    LineChart,
+    Line,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -9,6 +11,7 @@ import {
     Legend,
     ResponsiveContainer,
   } from "recharts";
+  import { scaleLog } from 'd3-scale';
 const axios = require('axios')
 const Home = () => {
     
@@ -68,32 +71,62 @@ const Home = () => {
     })
     // console.log("this is 24h volume data", dailyVolume)
 
+    // import log scale from D3
+    const scale = scaleLog();
+
+
 	return (
         <div>
             <div>
                 <h1>Top Meme Tokens</h1>
                 {allCoins}
             </div>
-            {/* <ResponsiveContainer> */}
-                <BarChart
-                    width={1000}
-                    height={500}
+          
+            <BarChart
+                width={1000}
+                height={350}
+                data={marketCap}
+                margin={{
+                    top: 5,
+                    right: 30,
+                    left: 200,
+                    bottom: 5
+                }}
+                >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="symbol" style={{fontSize: "10px"}}/>
+                <YAxis type="number"
+                            domain={[1, "auto"]}
+                            scale="log"
+                            orientation="left"/>
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="capacity" fill="#8884d8" />
+            </BarChart>
+                {/* <LineChart
+                    width={500}
+                    height={300}
                     data={marketCap}
                     margin={{
                         top: 5,
                         right: 30,
-                        left: 200,
-                        bottom: 5
+                        left: 20,
+                        bottom: 5,
                     }}
                     >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="symbol" />
-                    <YAxis />
+                    <YAxis type="number"
+                            domain={[1, "auto"]}
+                            scale="log"
+                            orientation="left"/>
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="capacity" fill="#8884d8" />
-                </BarChart>
-            {/* </ResponsiveContainer> */}
+                    <Line type="monotone" dataKey="capacity" stroke="#8884d8" activeDot={{ r: 8 }} />
+                    {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
+                {/* </LineChart> */} 
+      
+           
         </div>
 	)
 }
