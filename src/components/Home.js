@@ -11,7 +11,6 @@ import {
     Legend,
     ResponsiveContainer,
   } from "recharts";
-  import { scaleLog } from 'd3-scale';
 const axios = require('axios')
 const Home = () => {
     
@@ -65,15 +64,29 @@ const Home = () => {
         const symbol = c.symbol
         const volume = c.quote.USD.volume_24h;
         const updated = c.quote.USD.last_updated;
+
+
+        
         return (
             {name, symbol, volume, updated}
         ) 
     })
     // console.log("this is 24h volume data", dailyVolume)
 
-    // import log scale from D3
-    const scale = scaleLog();
-
+    // custom tooltip
+    // const CustomTooltip = ({ active, payload, label }) => {
+    //     if (active && payload && payload.length) {
+    //       return (
+    //         <div className="custom-tooltip">
+    //           <p className="label">{`${marketCap.name}`}</p>
+    //           <p className="intro">{`Market Value : $ ${marketCap.capacity}`}</p>
+    //           <p className="desc">Anything you want can be displayed here.</p>
+    //         </div>
+    //       );
+    //     }
+      
+    //     return null;
+    //   };
 
 	return (
         <div>
@@ -94,12 +107,13 @@ const Home = () => {
                 }}
                 >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="symbol" style={{fontSize: "10px"}}/>
+                <XAxis dataKey="name" style={{fontSize: "10px"}}/>
                 <YAxis type="number"
                             domain={[1, "auto"]}
                             scale="log"
-                            orientation="left"/>
-                <Tooltip />
+                            orientation="left"
+                            name="Market Capacity"/>
+                <Tooltip labelFormatter={(name) => 'Name: '+name} formatter={(capacity) =>'(Total Market Value) $'+capacity} />
                 <Legend />
                 <Bar dataKey="capacity" fill="#8884d8" />
             </BarChart>
