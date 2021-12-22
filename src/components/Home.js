@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 const axios = require('axios')
 const Home = () => {
     
+    let [market, setMarket] = useState([])
     let [coins, setCoins] = useState([])
 	let url = "http://localhost:8000"
 
@@ -33,19 +34,12 @@ const Home = () => {
 
     // coins visuals data
     const coinVisuals = coins.map((c, i)=>{
-        // array test:
-        // let newArray = []
-        // newArray.push([c.quote.USD.market_cap])
 
         // object creating for each key/value pair:
         const cap = c.quote.USD.market_cap;
         const updated = c.quote.USD.last_updated;
         const capAndUpdated = {updated, cap};
-        console.log(capAndUpdated)
-
-
-
-        // console.log(newArray)
+        console.log(typeof(capAndUpdated))
         return (
             <li key={i} style={{listStyle: "none"}}>
                 <div className="coinVisuals">
@@ -64,7 +58,7 @@ const Home = () => {
 		<div>
 			<h1>Top Meme Tokens</h1>
             {allCoins}
-            {/* {coinVisuals} */}
+            {coinVisuals}
 		</div>
 	)
 }
