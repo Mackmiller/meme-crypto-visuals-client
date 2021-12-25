@@ -37,7 +37,7 @@ const Home = () => {
                     <div className="coinInfo">
                         <h1>{c.name}</h1>
                         <div>Price: $ {c.quote.USD.price}</div>
-                        <div>Circulating Supply: {c.circulating_supply} {c.symbol}</div>
+                        <div>Circulating Supply: {(c.circulating_supply).toLocaleString("en-US")} {c.symbol}</div>
                     </div>
                 </div>
             </li>
@@ -97,6 +97,7 @@ const Home = () => {
             </div>
             <div>
                 <h3>Total Market Value of Circulating Supply</h3>
+                <ResponsiveContainer width="95%" height={400}>
                 <BarChart
                     width={1000}
                     height={350}
@@ -117,10 +118,11 @@ const Home = () => {
                                 tickFormatter={tick => {
                                     return tick.toLocaleString();
                                 }}/>
-                    <Tooltip labelFormatter={(name) => 'Name: '+name} formatter={(capacity) =>'$'+capacity} />
+                    <Tooltip labelFormatter={(name) => 'Name: '+name} formatter={(capacity) =>'$'+capacity.toLocaleString("en-US")} />
                     <Legend />
                     <Bar name="Market Capacity" dataKey="capacity" fill="#8884d8" />
                 </BarChart>
+                </ResponsiveContainer>
             </div>
                 {/* <LineChart
                     width={500}
