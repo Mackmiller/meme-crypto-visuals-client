@@ -15,7 +15,6 @@ const Home = () => {
     let [ids, setIds] = useState([])
     let [coins, setCoins] = useState([])
 	let url = "http://localhost:8000"
-
   // run api and store coin data
 	useEffect(() => {
         axios.get(url)
@@ -26,7 +25,6 @@ const Home = () => {
             })
             .catch(err => console.log(err))
 	}, [])
-
     // once coindata state has been set, store coin ids and run api for logo images
     useEffect(() => {
         // coins id data
@@ -38,19 +36,17 @@ const Home = () => {
         })
         setIds(coinIds)
     }, [coins])
-
     // once id state has been set, get logo images
     useEffect(() => {
         console.log("this is id state 0", ids[0])
+        console.log(`${url}/cryptocoin/${ids[0].id}`)
         // coins id data
         axios.get(`${url}/cryptocoin/${ids[0].id}`)
             .then(response => {
                 console.log("this is the response",response.data.data[ids[0].id].logo)
             })
             .catch(err => console.log(err))
-        
-    }, [ids])
-
+    }, [coins,ids])
     // coins text data
     const allCoins = coins.map((c, i)=>{
         return (
@@ -65,7 +61,6 @@ const Home = () => {
             </li>
         ) 
     })
-
     // marketcap data for visual
     const marketCap = coins.map((c, i)=>{
         // establishing each key/value pair:
@@ -80,6 +75,7 @@ const Home = () => {
     })
     //console.log("this is market cap data", marketCap)
 
+    
     // custom tooltip
     // const CustomTooltip = ({ active, payload, label }) => {
     //     if (active && payload && payload.length) {
@@ -94,7 +90,6 @@ const Home = () => {
       
     //     return null;
     //   };
-
 	return (
         <div style={{textAlign: "center"}}>
             <h1>TOP MEME TOKENS AND COINS</h1>
