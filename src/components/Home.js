@@ -96,32 +96,32 @@ const Home = () => {
                 {allCoins}
             </div>
             <div>
-                <h3>Total Market Value of Circulating Supply</h3>
+                <h3 style={{textAlign: "center"}}>Total Market Value of Circulating Supply</h3>
                 <ResponsiveContainer width="95%" height={400}>
-                <BarChart
-                    width={1000}
-                    height={350}
-                    data={marketCap}
-                    margin={{
-                        top: 5,
-                        right: 30,
-                        left: 200,
-                        bottom: 5
-                    }}
-                    >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" style={{fontSize: "10px"}}/>
-                    <YAxis type="number"
-                                domain={[1, "auto"]}
-                                scale="log"
-                                orientation="left"
-                                tickFormatter={tick => {
-                                    return tick.toLocaleString();
-                                }}/>
-                    <Tooltip labelFormatter={(name) => 'Name: '+name} formatter={(capacity) =>'$'+capacity.toLocaleString("en-US")} />
-                    <Legend />
-                    <Bar name="Market Capacity" dataKey="capacity" fill="#8884d8" />
-                </BarChart>
+                    <BarChart
+                        width={1000}
+                        height={350}
+                        data={marketCap}
+                        margin={{
+                            top: 5,
+                            right: 30,
+                            left: 200,
+                            bottom: 5
+                        }}
+                        >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" style={{fontSize: "10px"}}/>
+                        <YAxis type="number"
+                                    domain={[1, "auto"]}
+                                    scale="log"
+                                    orientation="left"
+                                    tickFormatter={tick => {
+                                        return tick.toLocaleString();
+                                    }}/>
+                        <Tooltip labelFormatter={(name) => 'Name: '+name} formatter={(capacity) =>'$'+capacity.toLocaleString("en-US")} />
+                        <Legend />
+                        <Bar name="Market Capacity" dataKey="capacity" fill="#8884d8" />
+                    </BarChart>
                 </ResponsiveContainer>
             </div>
                 {/* <LineChart
