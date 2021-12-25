@@ -39,14 +39,13 @@ const Home = () => {
         setIds(coinIds)
     }, [coins])
 
-
     // once id state has been set, get logo images
     useEffect(() => {
-        console.log("this is id state 0", ids[0].id)
+        console.log("this is id state 0", ids[0])
         // coins id data
         axios.get(`${url}/cryptocoin/${ids[0].id}`)
             .then(response => {
-                console.log("this is the response",response.data.data)
+                console.log("this is the response",response.data.data[ids[0].id].logo)
             })
             .catch(err => console.log(err))
         
