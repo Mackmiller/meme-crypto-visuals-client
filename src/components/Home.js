@@ -12,11 +12,11 @@ import {
 const axios = require('axios')
 const Home = () => {
     
-    // let [market, setMarket] = useState([])
+    let [ids, setIds] = useState([])
     let [coins, setCoins] = useState([])
 	let url = "http://localhost:8000"
 
-  // run api call once
+  // run api and store coin data
 	useEffect(() => {
         axios.get(url)
             .then(response => {
@@ -26,6 +26,31 @@ const Home = () => {
             })
             .catch(err => console.log(err))
 	}, [])
+
+    // once coindata state has been set, store coin ids and run api for logo images
+    useEffect(() => {
+        // coins id data
+        const coinIds = coins.map((c, i)=>{
+            let id = c.id
+            return(
+                {id}
+            )
+        })
+        setIds(coinIds)
+    }, [coins])
+
+
+    // once id state has been set, get logo images
+    useEffect(() => {
+        console.log("this is id state 0", ids[0].id)
+        // coins id data
+        axios.get(`${url}/cryptocoin/${ids[0].id}`)
+            .then(response => {
+                console.log("this is the response",response.data.data)
+            })
+            .catch(err => console.log(err))
+        
+    }, [ids])
 
     // coins text data
     const allCoins = coins.map((c, i)=>{
