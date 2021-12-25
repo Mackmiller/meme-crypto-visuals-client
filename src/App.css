@@ -1,38 +1,36 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Roboto:wght@300;400;700&display=swap');
+h1 {
+  font-family: 'Fredoka One', cursive;
+  margin: 15px;
+  font-size: 100px;
+}
+
+h3, p {
+  font-family: 'Roboto', sans-serif;
+}
+
+.all-coins {
+  margin: 0px auto;
+  padding: 0px;
+  max-width: 500px;
+}
+
+.coin-info {
   text-align: center;
+  padding: 15px;
+  max-width: 500px;
+  margin: 0 auto;
+  border: black;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.coin-list-items {
+  background-color: #F5F5F5;
+  max-width: 500px;
+  text-align: center;
+  margin: 15px auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.stats-display {
+  margin: 0 auto;
+  padding: 15px;
 }

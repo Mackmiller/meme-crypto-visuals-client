@@ -1,6 +1,7 @@
 
 import { Route, Routes } from 'react-router-dom'
-
+import '../src/App.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 import Home from './components/Home'
 
 //require('dotenv').config()

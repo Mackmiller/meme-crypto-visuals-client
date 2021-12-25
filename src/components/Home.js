@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react'
 import {
     BarChart,
     Bar,
-    LineChart,
-    Line,
     XAxis,
     YAxis,
     CartesianGrid,
@@ -14,7 +12,7 @@ import {
 const axios = require('axios')
 const Home = () => {
     
-    let [market, setMarket] = useState([])
+    // let [market, setMarket] = useState([])
     let [coins, setCoins] = useState([])
 	let url = "http://localhost:8000"
 
@@ -32,12 +30,12 @@ const Home = () => {
     // coins text data
     const allCoins = coins.map((c, i)=>{
         return (
-            <li key={i} style={{listStyle: "none"}}>
-                <div className="allCoins">
-                    <div className="coinInfo">
-                        <h1>{c.name}</h1>
-                        <div>Price: $ {c.quote.USD.price}</div>
-                        <div>Circulating Supply: {(c.circulating_supply).toLocaleString("en-US")} {c.symbol}</div>
+            <li key={i} style={{listStyle: "none"}} className="coin-list-items">
+                <div className="all-coins">
+                    <div className="coin-info">
+                        <h3><strong>{c.name}</strong></h3>
+                        <div><strong>Price:</strong> $ {c.quote.USD.price}</div>
+                        <div><strong>Circulating Supply:</strong> {(c.circulating_supply).toLocaleString("en-US")} {c.symbol}</div>
                     </div>
                 </div>
             </li>
@@ -50,29 +48,13 @@ const Home = () => {
         const name = c.name
         const symbol = c.symbol
         const capacity = c.quote.USD.market_cap
-        // const capacityFormatted = new Intl.NumberFormat().format(c.quote.USD.market_cap);
-        const updated = c.quote.USD.last_updated;
-        return (
-            {name, capacity, updated, symbol}
-        ) 
-    })
-    console.log("this is market cap data", marketCap)
-
-      // 24h volume data for visual
-      const dailyVolume = coins.map((c, i)=>{
-        // establishing each key/value pair:
-        const name = c.name
-        const symbol = c.symbol
         const volume = c.quote.USD.volume_24h;
         const updated = c.quote.USD.last_updated;
-
-
-        
         return (
-            {name, symbol, volume, updated}
+            {name, capacity, volume, updated, symbol}
         ) 
     })
-    // console.log("this is 24h volume data", dailyVolume)
+    //console.log("this is market cap data", marketCap)
 
     // custom tooltip
     // const CustomTooltip = ({ active, payload, label }) => {
@@ -90,13 +72,10 @@ const Home = () => {
     //   };
 
 	return (
-        <div>
-            <div>
-                <h1>Top Meme Tokens</h1>
-                {allCoins}
-            </div>
-            <div>
-                <h3 style={{textAlign: "center"}}>Total Market Value of Circulating Supply</h3>
+        <div style={{textAlign: "center"}}>
+            <h1>TOP MEME TOKENS AND COINS</h1>
+            <div className="visualization-display">
+                <h3>Total Market Value (USD) of Circulating Supply and Volume Traded in Past 24hrs</h3>
                 <ResponsiveContainer width="95%" height={400}>
                     <BarChart
                         width={1000}
@@ -105,49 +84,31 @@ const Home = () => {
                         margin={{
                             top: 5,
                             right: 30,
-                            left: 200,
+                            left: 150,
                             bottom: 5
                         }}
                         >
                         <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" style={{fontSize: "10px"}}/>
+                        <XAxis dataKey="name" style={{fontSize: "12px"}}/>
                         <YAxis type="number"
-                                    domain={[1, "auto"]}
-                                    scale="log"
-                                    orientation="left"
-                                    tickFormatter={tick => {
-                                        return tick.toLocaleString();
-                                    }}/>
+                                style={{fontSize: "12px"}}
+                                domain={[1, "auto"]}
+                                scale="log"
+                                orientation="left"
+                                tickFormatter={tick => {
+                                    return `$${tick.toLocaleString()}`;
+                                }}
+                        />
                         <Tooltip labelFormatter={(name) => 'Name: '+name} formatter={(capacity) =>'$'+capacity.toLocaleString("en-US")} />
                         <Legend />
-                        <Bar name="Market Capacity" dataKey="capacity" fill="#8884d8" />
+                        <Bar name="Market Capacity" dataKey="capacity" fill="#B48DD8" />
+                        <Bar name="Volume Traded (24h)" dataKey="volume" fill="#694BA0" />
                     </BarChart>
                 </ResponsiveContainer>
             </div>
-                {/* <LineChart
-                    width={500}
-                    height={300}
-                    data={marketCap}
-                    margin={{
-                        top: 5,
-                        right: 30,
-                        left: 20,
-                        bottom: 5,
-                    }}
-                    >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="symbol" />
-                    <YAxis type="number"
-                            domain={[1, "auto"]}
-                            scale="log"
-                            orientation="left"/>
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="capacity" stroke="#8884d8" activeDot={{ r: 8 }} />
-                    {/* <Line type="monotone" dataKey="uv" stroke="#82ca9d" /> */}
-                {/* </LineChart> */} 
-      
-           
+            <div className="stats-display">
+                {allCoins}
+            </div>
         </div>
 	)
 }
