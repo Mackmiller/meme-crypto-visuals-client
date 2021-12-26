@@ -12,6 +12,7 @@ import {
 const axios = require('axios')
 const Home = () => {
     
+    let [logos, setLogos] = useState([])
     let [ids, setIds] = useState([])
     let [coins, setCoins] = useState([])
 	let url = "http://localhost:8000"
@@ -36,17 +37,36 @@ const Home = () => {
         })
         setIds(coinIds)
     }, [coins])
-    // once id state has been set, get logo images
+
+    // map id state
     useEffect(() => {
-        console.log("this is id state 0", ids[0])
-        console.log(`${url}/cryptocoin/${ids[0].id}`)
-        // coins id data
-        axios.get(`${url}/cryptocoin/${ids[0].id}`)
-            .then(response => {
-                console.log("this is the response",response.data.data[ids[0].id].logo)
-            })
-            .catch(err => console.log(err))
-    }, [coins,ids])
+        const coinLogos = ids.map((logoId, i)=>{
+            // console.log("this is state ids", ids)
+            axios.get(`${url}/cryptocoin/${logoId.id}`)
+                .then(response => {
+                    let logoLinks = response.data.data[logoId.id].logo
+                    // console.log("logoLinks: ", [logoLinks])
+                    setLogos([logoLinks])
+                    // setLogos(logoLinks)
+                    console.log("here is coin logos state", logos)
+                })
+                .catch(err => console.log(err))  
+        })
+    }, [ids, url, logos])
+
+    
+    // once id state has been set and mapped, get logo images
+    // useEffect(() => {
+    //     console.log("this is coinLogos mapped", coinLogos)
+    //     // console.log(`${url}/cryptocoin/${ids[0].id}`)
+    //     // // coins id data
+    //     // axios.get(`${url}/cryptocoin/${ids[0].id}`)
+    //     //     .then(response => {
+    //     //         console.log("this is the response",response.data.data[ids[0].id].logo)
+    //     //     })
+    //     //     .catch(err => console.log(err))
+    // }, [ids])
+
     // coins text data
     const allCoins = coins.map((c, i)=>{
         return (
@@ -93,6 +113,9 @@ const Home = () => {
 	return (
         <div style={{textAlign: "center"}}>
             <h1>TOP MEME TOKENS AND COINS</h1>
+            <li>
+            <img src= {logos} alt="crypto logo"/>
+            </li>
             <div className="visualization-display">
                 <h3>Total Market Value (USD) of Circulating Supply and Volume Traded in Past 24hrs</h3>
                 <ResponsiveContainer width="95%" height={400}>
