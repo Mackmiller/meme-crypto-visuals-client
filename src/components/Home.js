@@ -46,15 +46,23 @@ const Home = () => {
                 .then(response => {
                     let logoLinks = response.data.data[logoId.id].logo
                     // console.log("logoLinks: ", [logoLinks])
-                    setLogos([logoLinks])
+                    setLogos(logos=>[...logos, logoLinks])
                     // setLogos(logoLinks)
                     console.log("here is coin logos state", logos)
                 })
-                .catch(err => console.log(err))  
+                .catch(err => console.log(err))
         })
-    }, [ids, url, logos])
+    }, [ids])
 
-    
+    //map the logos
+    const allLinks = logos.map((l, i)=>{
+        return (
+            <li key={i} style={{listStyle: "none"}}>
+                <img src= {l} alt="crypto logo"/>
+            </li>
+        ) 
+    })
+
     // once id state has been set and mapped, get logo images
     // useEffect(() => {
     //     console.log("this is coinLogos mapped", coinLogos)
@@ -113,9 +121,8 @@ const Home = () => {
 	return (
         <div style={{textAlign: "center"}}>
             <h1>TOP MEME TOKENS AND COINS</h1>
-            <li>
-            <img src= {logos} alt="crypto logo"/>
-            </li>
+            {logos? allLinks : console.log("no data")}
+            {/* <img src= {logos} alt="crypto logo"/> */}
             <div className="visualization-display">
                 <h3>Total Market Value (USD) of Circulating Supply and Volume Traded in Past 24hrs</h3>
                 <ResponsiveContainer width="95%" height={400}>
