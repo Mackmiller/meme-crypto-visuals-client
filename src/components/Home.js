@@ -15,19 +15,32 @@ const Home = () => {
     let [logos, setLogos] = useState([])
     let [ids, setIds] = useState([])
     let [coins, setCoins] = useState([])
+    const [loading, setLoading] = useState(false);
 	let url = "http://localhost:8000"
   // run api and store coin data
 	useEffect(() => {
+        getData()
+        getIds()
+        ids? getLogos() : console.log("ids don't exist")
+	}, [])
+
+    // 1
+    const getData = () => {
+        setLoading(true)
         axios.get(url)
             .then(response => {
                 const coinData = response.data.data.coins
                 // console.log('this is coin data', coinData);
                 setCoins(coinData)
+                setLoading(false)
             })
-            .catch(err => console.log(err))
-	}, [])
-    // once coindata state has been set, store coin ids and run api for logo images
-    useEffect(() => {
+            .catch(err => {
+                console.log(err)
+                setLoading(false);
+            })
+    }
+    // 2
+   const getIds = () => {
         // coins id data
         const coinIds = coins.map((c, i)=>{
             let id = c.id
@@ -36,29 +49,32 @@ const Home = () => {
             )
         })
         setIds(coinIds)
-    }, [coins])
+    }
 
-    // map id state
-    useEffect(() => {
-        const coinLogos = ids.map((logoId, i)=>{
+    // 3
+    const getLogos = () => {
+        console.log("this is state ids: ", ids)
+        ids.map((logoId, i)=>{
             // console.log("this is state ids", ids)
             axios.get(`${url}/cryptocoin/${logoId.id}`)
                 .then(response => {
-                    let logoLinks = response.data.data[logoId.id].logo
-                    // console.log("logoLinks: ", [logoLinks])
+                    // let logoLinks = response.data.data[logoId.id].logo
+                    let logoLinks = response.data.data[logoId.id]
+                    console.log("logoLinks: ", [logoLinks])
                     setLogos(logos=>[...logos, logoLinks])
                     // setLogos(logoLinks)
-                    console.log("here is coin logos state", logos)
+                    // console.log("here is coin logos state", logos)
                 })
                 .catch(err => console.log(err))
         })
-    }, [ids])
+    }
 
     //map the logos
     const allLinks = logos.map((l, i)=>{
+        // console.log(l.id)
         return (
-            <li key={i} style={{listStyle: "none"}}>
-                <img src= {l} alt="crypto logo"/>
+            <li key={i} style={{listStyle: "none", display: "inline"}}>
+                <img src= {l.logo} alt="crypto logo"/>
             </li>
         ) 
     })
@@ -119,46 +135,53 @@ const Home = () => {
     //     return null;
     //   };
 	return (
-        <div style={{textAlign: "center"}}>
-            <h1>TOP MEME TOKENS AND COINS</h1>
-            {logos? allLinks : console.log("no data")}
-            {/* <img src= {logos} alt="crypto logo"/> */}
-            <div className="visualization-display">
-                <h3>Total Market Value (USD) of Circulating Supply and Volume Traded in Past 24hrs</h3>
-                <ResponsiveContainer width="95%" height={400}>
-                    <BarChart
-                        width={1000}
-                        height={350}
-                        data={marketCap}
-                        margin={{
-                            top: 5,
-                            right: 30,
-                            left: 150,
-                            bottom: 5
-                        }}
-                        >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" style={{fontSize: "12px"}}/>
-                        <YAxis type="number"
-                                style={{fontSize: "12px"}}
-                                domain={[1, "auto"]}
-                                scale="log"
-                                orientation="left"
-                                tickFormatter={tick => {
-                                    return `$${tick.toLocaleString()}`;
-                                }}
-                        />
-                        <Tooltip labelFormatter={(name) => 'Name: '+name} formatter={(capacity) =>'$'+capacity.toLocaleString("en-US")} />
-                        <Legend />
-                        <Bar name="Market Capacity" dataKey="capacity" fill="#B48DD8" />
-                        <Bar name="Volume Traded (24h)" dataKey="volume" fill="#694BA0" />
-                    </BarChart>
-                </ResponsiveContainer>
+        <>
+            {loading? (
+                <div>Loading...</div>
+            ) : (
+            <div style={{textAlign: "center"}}>
+                <h1>TOP MEME TOKENS AND COINS</h1>
+                <div className="logo-display">
+                    {logos? allLinks : console.log("no data")}
+                </div>
+                <div className="visualization-display">
+                    <h3>Total Market Value (USD) of Circulating Supply and Volume Traded in Past 24hrs</h3>
+                    <ResponsiveContainer width="95%" height={400}>
+                        <BarChart
+                            width={1000}
+                            height={350}
+                            data={marketCap}
+                            margin={{
+                                top: 5,
+                                right: 30,
+                                left: 150,
+                                bottom: 5
+                            }}
+                            >
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <XAxis dataKey="name" style={{fontSize: "12px"}}/>
+                            <YAxis type="number"
+                                    style={{fontSize: "12px"}}
+                                    domain={[1, "auto"]}
+                                    scale="log"
+                                    orientation="left"
+                                    tickFormatter={tick => {
+                                        return `$${tick.toLocaleString()}`;
+                                    }}
+                            />
+                            <Tooltip labelFormatter={(name) => 'Name: '+name} formatter={(capacity) =>'$'+capacity.toLocaleString("en-US")} />
+                            <Legend />
+                            <Bar name="Market Capacity" dataKey="capacity" fill="#B48DD8" />
+                            <Bar name="Volume Traded (24h)" dataKey="volume" fill="#694BA0" />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+                <div className="stats-display">
+                    {allCoins}
+                </div>
             </div>
-            <div className="stats-display">
-                {allCoins}
-            </div>
-        </div>
+            )}
+        </>
 	)
 }
 
