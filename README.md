@@ -3,7 +3,7 @@
 # Top Meme Tokens and Coins
 
 ### An entire category of cryptocurrency is inspired by memes, and it's worth billions of US dollars: Meme coins and tokens are heavily community-driven, influenced by their current standing within social media channels and general online presence.
-This is a web application which allows users to view the top tokens and coins within the Meme cryptocurrancy category, including total market value and volume traded within the past 24 hours. Data is from the [CoinMarketCap API](https://coinmarketcap.com/api/documentation/v1/) and visualizations were built within React using [Rechart](https://recharts.org/en-US).
+This is a web application which allows users to view the top tokens and coins within the Meme cryptocurrency category, including total market value and volume traded within the past 24 hours. Data is from the [CoinMarketCap API](https://coinmarketcap.com/api/documentation/v1/) and visualizations were built within React using [Rechart](https://recharts.org/en-US).
 
 ## Tech stack
 
@@ -49,7 +49,9 @@ npm install
 npm start
 ```
 
-- On your browser, navigate to localhost3000 and the project automatically appears on your locally hosted web page. Project screenshots coming soon.
+- On your browser, navigate to localhost3000 and the project automatically appears on your locally hosted web page, similar to this screenshot:
+
+<img alt="project" src="project_view.png">
 
 - Part 2 of local installment includes forking and cloning the server repository, which will be linked here soon.
 

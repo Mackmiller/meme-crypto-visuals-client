@@ -11,7 +11,7 @@ import {
   } from "recharts";
 
 const axios = require('axios')
-const Home = () => {
+const Home = (props) => {
     
     let [logos, setLogos] = useState([])
     let [ids, setIds] = useState([])
@@ -86,8 +86,6 @@ const Home = () => {
             ) 
         })
  
-
-
     // coins text data
     const allCoins = coins.map((c, i)=>{
         return (
@@ -117,29 +115,17 @@ const Home = () => {
     })
     //console.log("this is market cap data", marketCap)
 
-    
-    // custom tooltip
-    // const CustomTooltip = ({ active, payload, label }) => {
-    //     if (active && payload && payload.length) {
-    //       return (
-    //         <div className="custom-tooltip">
-    //           <p className="label">{`${marketCap.name}`}</p>
-    //           <p className="intro">{`Market Value : $ ${marketCap.capacity}`}</p>
-    //           <p className="desc">Anything you want can be displayed here.</p>
-    //         </div>
-    //       );
-    //     }
-      
-    //     return null;
-    //   };
-
 	return (
         <>
             {loading? (
                 <div>Loading...</div>
             ) : (
                 <div style={{textAlign: "center"}}>
-                    <h1 style={{fontSize:"60px"}}>TOP MEME TOKENS AND COINS</h1>
+                    {/* <h1 style={{fontSize:"60px"}}>TOP MEME TOKENS AND COINS</h1> */}
+                    <div className="subtitle">
+                        <h3><strong>An entire category of cryptocurrency is inspired by memes, and it's worth billions of US dollars.</strong></h3>
+                        <p>Meme coins and tokens are heavily community-driven, influenced by their current standing within social media channels and general online presence. Below, view the top tokens and coins within the Meme cryptocurrency category, including total market value and volume traded within the past 24 hours.</p>
+                     </div>
                     <div className="logo-display">
                         {logos? allLinks : console.log("no data")}
                     </div>
