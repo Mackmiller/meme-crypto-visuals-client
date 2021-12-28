@@ -9,6 +9,11 @@ h3, p {
   font-family: 'Roboto', sans-serif;
 }
 
+img {
+  height: 60px;
+  width: 60px;
+}
+
 .all-coins {
   margin: 0px auto;
   padding: 0px;
