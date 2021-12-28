@@ -2,6 +2,7 @@
 
 # Top Meme Tokens and Coins
 
+### An entire category of cryptocurrency is inspired by memes, and it's worth billions of US dollars. Meme coins and tokens are heavily community-driven, influenced by their current standing within social media channels and general online presence.
 A web application which allows users to view the top tokens and coins within the Meme cryptocurrancy category, including total market value and volume traded within the past 24 hours. Data is from the [CoinMarketCap API](https://coinmarketcap.com/api/documentation/v1/) and visualizations were built within React using [Rechart](https://recharts.org/en-US).
 
 ## Tech stack
