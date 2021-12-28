@@ -108,11 +108,11 @@ const Home = () => {
         // establishing each key/value pair:
         const name = c.name
         const symbol = c.symbol
-        const capacity = c.quote.USD.market_cap
+        const cap = c.quote.USD.market_cap
         const volume = c.quote.USD.volume_24h;
         const updated = c.quote.USD.last_updated;
         return (
-            {name, capacity, volume, updated, symbol}
+            {name, cap, volume, updated, symbol}
         ) 
     })
     //console.log("this is market cap data", marketCap)
@@ -170,7 +170,7 @@ const Home = () => {
                                 />
                                 <Tooltip labelFormatter={(name) => 'Name: '+name} formatter={(capacity) =>'$'+capacity.toLocaleString("en-US")} />
                                 <Legend />
-                                <Bar name="Market Capacity" dataKey="capacity" fill="#B48DD8" />
+                                <Bar name="Market Capitalization" dataKey="cap" fill="#B48DD8" />
                                 <Bar name="Volume Traded (24h)" dataKey="volume" fill="#694BA0" />
                             </BarChart>
                         </ResponsiveContainer>
