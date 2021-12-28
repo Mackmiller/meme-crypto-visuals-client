@@ -18,6 +18,10 @@ This is a web application which allows users to view the top tokens and coins wi
     - I want to be able to sign up/login for an account
     - I want to save a particular coin to my account
 
+## ERD visual
+
+<img alt="erd" src="basic_erd.png">
+
 ## Local Setup
 
 - Install the LTS version of node.js from [here](https://nodejs.org/en/)
