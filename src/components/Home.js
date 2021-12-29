@@ -11,6 +11,14 @@ import {
   } from "recharts";
 
 const axios = require('axios')
+
+const buttonStyling = {
+    color: "gold",
+    backgroundColor: "black",
+    fontWeight: "bold",
+    padding: "10px",
+    marginTop: "10px"
+}
 const Home = (props) => {
     
     let [logos, setLogos] = useState([])
@@ -86,6 +94,9 @@ const Home = (props) => {
             ) 
         })
  
+    
+
+
     // coins text data
     const allCoins = coins.map((c, i)=>{
         return (
@@ -95,6 +106,10 @@ const Home = (props) => {
                         <h3><strong>{c.name}</strong></h3>
                         <div><strong>Price:</strong> $ {c.quote.USD.price}</div>
                         <div><strong>Circulating Supply:</strong> {(c.circulating_supply).toLocaleString("en-US")} {c.symbol}</div>
+                        <div id="coinButton">
+                            <button className="button" style={buttonStyling}>Track this Coin</button>
+                            {/* <button className="button" onClick={() => addCoin(c)}>Track this Coin</button> */}
+                        </div>
                     </div>
                 </div>
             </li>
