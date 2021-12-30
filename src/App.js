@@ -14,12 +14,69 @@ import SignUp from './components/auth/SignUp'
 import SignIn from './components/auth/SignIn'
 import SignOut from './components/auth/SignOut'
 import ChangePassword from './components/auth/ChangePassword'
+const axios = require('axios')
 
 const App = () => {
 
 	const [user, setUser] = useState(null)
 	const [foundFavorites, setFoundFavorites] = useState({})
 	const [msgAlerts, setMsgAlerts] = useState([])
+	let [logos, setLogos] = useState([])
+    let [ids, setIds] = useState([])
+    let [coins, setCoins] = useState([])
+    const [loading, setLoading] = useState(false);
+	let url = "http://localhost:8000"
+	
+
+
+    // -------- USE EFFECTS -----------
+
+    // 1: run coinmarketcap api and store coin data
+	useEffect(() => {
+        setLoading(true)
+        axios.get(url)
+            .then(response => {
+                const coinData = response.data.data.coins
+                setCoins(coinData)
+                setLoading(false)
+            })
+            .catch(err => {
+                console.log(err)
+                setLoading(false);
+            })
+	}, [url])
+
+    // 2: from the coins state set in step 1, take coin ids and save to another state, ids
+    useEffect(() => {
+        if (coins){
+            const coinIds = coins.map((c, i)=>{
+                let id = c.id
+                return(
+                    {id}
+                )
+            })
+            setIds(coinIds)
+        }
+    },[coins])
+
+    // 3: from the ids state set in step 2, use coinmarketcap api to get coin images
+    // this is in a completely separate part of the coinmarketcap api from the info grabbed in step 1
+    useEffect(() => {
+        if(ids){
+            ids.map((logoId, i)=>{
+                console.log("this is state ids", ids)
+                return (
+                    axios.get(`${url}/cryptocoin/${logoId.id}`)
+                        .then(response => {
+                            let logoLinks = response.data.data[logoId.id]
+                            console.log("logoLinks: ", [logoLinks])
+                            setLogos(logos=>[...logos, logoLinks])
+                        })
+                        .catch(err => console.log(err))
+                )
+            })
+        }
+    },[ids, url])
 
 	// useEffect that runs when user state changes
 	// Only runs getFavorites
@@ -70,7 +127,7 @@ const App = () => {
 			  <Fragment>
 				  <Header user={user} />
 				  <Routes>
-					  <Route path='/' element={<Home msgAlert={msgAlert} user={user} />} />
+					  <Route path='/' element={<Home msgAlert={msgAlert} user={user} coins={coins} logos={logos} ids={ids} loading={loading}/>} />
 					  <Route path='/favorites' element={<Favorites msgAlert={msgAlert} user={user} favorites={foundFavorites}/>} />
 					  <Route
 						  path='/sign-up'

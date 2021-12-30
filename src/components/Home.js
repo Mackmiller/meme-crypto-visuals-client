@@ -24,73 +24,65 @@ const buttonStyling = {
 }
 const Home = (props) => {
 
-    // const navigate = useNavigate();
-   
-    let [logos, setLogos] = useState([])
-    let [ids, setIds] = useState([])
-    let [coins, setCoins] = useState([])
-    const [loading, setLoading] = useState(false);
-	let url = "http://localhost:8000"
+    // let [logos, setLogos] = useState([])
+    // let [ids, setIds] = useState([])
+    // let [coins, setCoins] = useState([])
+    // const [loading, setLoading] = useState(false);
+	// let url = "http://localhost:8000"
 
-    // 1
-    // run api and store coin data
-	useEffect(() => {
-        setLoading(true)
-        axios.get(url)
-            .then(response => {
-                const coinData = response.data.data.coins
-                setCoins(coinData)
-                setLoading(false)
-            })
-            // .then(newResult=> getIds(newResult))
-            // .then(finalResult=>getLogos(finalResult))
-            .catch(err => {
-                console.log(err)
-                setLoading(false);
-            })
-	}, [url])
 
-    // 2
-    useEffect(() => {
-        if (coins){
-            // coins id data
-            const coinIds = coins.map((c, i)=>{
-                let id = c.id
-                return(
-                    {id}
-                )
-            })
-            setIds(coinIds)
-            // console.log('this is ids', ids)
-        }
-    },[coins])
+    // // -------- USE EFFECTS -----------
 
-    // 3
-    useEffect(() => {
-        if(ids){
-        // console.log("this is state ids: ", ids)
-            ids.map((logoId, i)=>{
-                console.log("this is state ids", ids)
-                return (
-                    axios.get(`${url}/cryptocoin/${logoId.id}`)
-                        .then(response => {
-                            // let logoLinks = response.data.data[logoId.id].logo
-                            let logoLinks = response.data.data[logoId.id]
-                            console.log("logoLinks: ", [logoLinks])
-                            setLogos(logos=>[...logos, logoLinks])
-                            // setLogos(logoLinks)
-                            // console.log("here is coin logos state", logos)
-                        })
-                        .catch(err => console.log(err))
-                )
-            })
-        }
-    },[ids, url])
+    // // 1: run coinmarketcap api and store coin data
+	// useEffect(() => {
+    //     setLoading(true)
+    //     axios.get(url)
+    //         .then(response => {
+    //             const coinData = response.data.data.coins
+    //             setCoins(coinData)
+    //             setLoading(false)
+    //         })
+    //         .catch(err => {
+    //             console.log(err)
+    //             setLoading(false);
+    //         })
+	// }, [url])
+
+    // // 2: from the coins state set in step 1, take coin ids and save to another state, ids
+    // useEffect(() => {
+    //     if (coins){
+    //         const coinIds = coins.map((c, i)=>{
+    //             let id = c.id
+    //             return(
+    //                 {id}
+    //             )
+    //         })
+    //         setIds(coinIds)
+    //     }
+    // },[coins])
+
+    // // 3: from the ids state set in step 2, use coinmarketcap api to get coin images
+    // // this is in a completely separate part of the coinmarketcap api from the info grabbed in step 1
+    // useEffect(() => {
+    //     if(ids){
+    //         ids.map((logoId, i)=>{
+    //             console.log("this is state ids", ids)
+    //             return (
+    //                 axios.get(`${url}/cryptocoin/${logoId.id}`)
+    //                     .then(response => {
+    //                         let logoLinks = response.data.data[logoId.id]
+    //                         console.log("logoLinks: ", [logoLinks])
+    //                         setLogos(logos=>[...logos, logoLinks])
+    //                     })
+    //                     .catch(err => console.log(err))
+    //             )
+    //         })
+    //     }
+    // },[ids, url])
     
-    //4
-    //map the logos
+    //4: using the logo urls set in step 3, map the logos into JSX list items
     const allLinks = 
-        logos.map((l, i)=>{
+        props.logos.map((l, i)=>{
         // console.log(l.id)
             return (
                 <li key={i} style={{listStyle: "none", display: "inline"}}>
@@ -99,7 +91,10 @@ const Home = (props) => {
             ) 
         })
     
-    // request to database
+
+    // -------- FAVORITES DATABASE REQUEST -----------
+
+    // add coin to favorites database on button click
     const postFavorite = (c) => {
         // console.log('Pressed favorite button')
         // console.log(props.user)
@@ -117,13 +112,15 @@ const Home = (props) => {
                     price: c.quote.USD.price,
                     symbol: c.symbol
                 },
-		},
-        
+		    },
         })
     }
+
+
+    // -------- DISPLAY COIN INFORMATION FROM COIN STATE -----------
  
-    // coins text data
-    const allCoins = coins.map((c, i)=>{
+    // 1: display text data for coins
+    const allCoins = props.coins.map((c, i)=>{
         return (
             <li key={i} style={{listStyle: "none"}} className="coin-list-items">
                 <div className="all-coins">
@@ -140,8 +137,8 @@ const Home = (props) => {
         ) 
     })
 
-    // marketcap data for visual
-    const marketCap = coins.map((c, i)=>{
+    // 2: establish coin state data needed for chart
+    const marketCap = props.coins.map((c, i)=>{
         // establishing each key/value pair:
         const name = c.name
         const symbol = c.symbol
@@ -156,17 +153,16 @@ const Home = (props) => {
 
 	return (
         <>
-            {loading? (
+            {props.loading? (
                 <div>Loading...</div>
             ) : (
                 <div style={{textAlign: "center"}}>
-                    {/* <h1 style={{fontSize:"60px"}}>TOP MEME TOKENS AND COINS</h1> */}
                     <div className="subtitle">
                         <h3><strong>An entire category of cryptocurrency is inspired by memes, and it's worth billions of US dollars.</strong></h3>
                         <p>Meme coins and tokens are heavily community-driven, influenced by their current standing within social media channels and general online presence. Below, view the top tokens and coins within the Meme cryptocurrency category, including total market value and volume traded within the past 24 hours.</p>
                      </div>
                     <div className="logo-display">
-                        {logos? allLinks : console.log("no data")}
+                        {props.logos? allLinks : console.log("no data")}
                     </div>
                     <div className="visualization-display">
                         <h3>Total Market Value (USD) of Circulating Supply and Volume Traded in Past 24hrs</h3>
