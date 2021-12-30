@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+// import { useNavigate } from 'react-router-dom'
 import {
     BarChart,
     Bar,
@@ -10,6 +11,8 @@ import {
     ResponsiveContainer,
   } from "recharts";
 
+import apiUrl from '../apiConfig'
+
 const axios = require('axios')
 
 const buttonStyling = {
@@ -20,6 +23,8 @@ const buttonStyling = {
     marginTop: "10px"
 }
 const Home = (props) => {
+
+    // const navigate = useNavigate();
     
     let [logos, setLogos] = useState([])
     let [ids, setIds] = useState([])
@@ -93,22 +98,66 @@ const Home = (props) => {
                 </li>
             ) 
         })
- 
     
-
-
+    // // request to database
+    const postFavorite = (c) => {
+        // console.log('Pressed favorite button')
+        // console.log(props.user)
+        return axios({
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${props.user.token}`
+            },
+            url: apiUrl + '/favorites',
+            data: {
+                favorite: {
+                    userId: props.user._id,
+                    name: c.name,
+                    price: c.quote.USD.price,
+                    symbol: c.symbol
+                },
+		},
+        
+        })
+    }
+    // const postFavorite = (c) => {
+    //     console.log('Pressed favorite button')
+    //     console.log(props.user)
+    //     let preJSONBody = {
+    //         userId: props.user._id,
+    //         name: c.name,
+    //         price: c.quote.USD.price,
+    //         symbol: c.symbol
+    //     }
+    //     const requestOptions = {
+    //         method: 'POST',
+    //         body: JSON.stringify(preJSONBody),
+    //         headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${props.user.token}`
+    //         },
+    //     }
+    //     // fetch(`http://localhost:8000/favorites/user/${props.user._id}`, requestOptions)
+    //     fetch(`http://localhost:8000/favorites`, requestOptions)
+    //         .then(postedFavorite=> {
+    //             console.log("posted to favorites", postedFavorite)
+    //             navigate('/')
+    //         })
+    //         .catch(err => console.error(err))
+    //     }
+ 
     // coins text data
     const allCoins = coins.map((c, i)=>{
         return (
             <li key={i} style={{listStyle: "none"}} className="coin-list-items">
                 <div className="all-coins">
                     <div className="coin-info">
-                        <h3><strong>{c.name}</strong></h3>
-                        <div><strong>Price:</strong> $ {c.quote.USD.price}</div>
-                        <div><strong>Circulating Supply:</strong> {(c.circulating_supply).toLocaleString("en-US")} {c.symbol}</div>
+                        <h3 id="name"><strong>{c.name}</strong></h3>
+                        <div id="price"><strong>Price:</strong> $ {c.quote.USD.price}</div>
+                        <div id="symbol"><strong>Circulating Supply:</strong> {(c.circulating_supply).toLocaleString("en-US")} {c.symbol}</div>
                         <div id="coinButton">
-                            <button className="button" style={buttonStyling}>Track this Coin</button>
-                            {/* <button className="button" onClick={() => addCoin(c)}>Track this Coin</button> */}
+                            <button className="button" onClick={() => postFavorite(c)} style={buttonStyling}>Track this Coin</button>
                         </div>
                     </div>
                 </div>
