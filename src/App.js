@@ -1,5 +1,5 @@
 
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
 
@@ -18,7 +18,25 @@ import ChangePassword from './components/auth/ChangePassword'
 const App = () => {
 
 	const [user, setUser] = useState(null)
+	const [foundFavorites, setFoundFavorites] = useState({})
 	const [msgAlerts, setMsgAlerts] = useState([])
+
+	// useEffect that runs when user state changes
+	// Only runs getFavorites
+	useEffect(()=>{
+		const getFavorites = () => {
+			if(user){
+				fetch(`http://localhost:8000/favorites/user/${user._id}`)
+				.then(res => res.json())
+				.then(foundObject => {
+					console.log("this is found object: ", foundObject)
+					setFoundFavorites(foundObject)
+				})
+				.catch(err => console.log('THIS IS ERR',err))
+			}
+		}
+		getFavorites()
+	}, [user])
   
 	console.log('user in app', user)
 	console.log('message alerts', msgAlerts)
@@ -41,13 +59,19 @@ const App = () => {
 		)
 		  })
 	  }
+
+	  	// Function that when called get the users favorites based on user's Id
+	// This function sets the found data from the call to our foundProfile state
+	// Passed to components to ensure user state in App.js stats up to date
+
+
   
 		  return (
 			  <Fragment>
 				  <Header user={user} />
 				  <Routes>
 					  <Route path='/' element={<Home msgAlert={msgAlert} user={user} />} />
-					  <Route path='/favorites' element={<Favorites msgAlert={msgAlert} user={user} />} />
+					  <Route path='/favorites' element={<Favorites msgAlert={msgAlert} user={user} favorites={foundFavorites}/>} />
 					  <Route
 						  path='/sign-up'
 						  element={<SignUp msgAlert={msgAlert} setUser={setUser} />}

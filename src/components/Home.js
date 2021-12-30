@@ -25,7 +25,7 @@ const buttonStyling = {
 const Home = (props) => {
 
     // const navigate = useNavigate();
-    
+   
     let [logos, setLogos] = useState([])
     let [ids, setIds] = useState([])
     let [coins, setCoins] = useState([])
@@ -99,7 +99,7 @@ const Home = (props) => {
             ) 
         })
     
-    // // request to database
+    // request to database
     const postFavorite = (c) => {
         // console.log('Pressed favorite button')
         // console.log(props.user)
@@ -121,31 +121,6 @@ const Home = (props) => {
         
         })
     }
-    // const postFavorite = (c) => {
-    //     console.log('Pressed favorite button')
-    //     console.log(props.user)
-    //     let preJSONBody = {
-    //         userId: props.user._id,
-    //         name: c.name,
-    //         price: c.quote.USD.price,
-    //         symbol: c.symbol
-    //     }
-    //     const requestOptions = {
-    //         method: 'POST',
-    //         body: JSON.stringify(preJSONBody),
-    //         headers: {
-    //         'Content-Type': 'application/json',
-    //         'Authorization': `Bearer ${props.user.token}`
-    //         },
-    //     }
-    //     // fetch(`http://localhost:8000/favorites/user/${props.user._id}`, requestOptions)
-    //     fetch(`http://localhost:8000/favorites`, requestOptions)
-    //         .then(postedFavorite=> {
-    //             console.log("posted to favorites", postedFavorite)
-    //             navigate('/')
-    //         })
-    //         .catch(err => console.error(err))
-    //     }
  
     // coins text data
     const allCoins = coins.map((c, i)=>{

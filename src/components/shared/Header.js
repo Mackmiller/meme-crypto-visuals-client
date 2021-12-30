@@ -18,6 +18,11 @@ const authenticatedOptions = (
 				Sign Out
 			</Link>
 		</Nav.Link>
+		<Nav.Link>
+			<Link to='favorites' style={linkStyle}>
+				Favorites
+			</Link>
+		</Nav.Link>
 	</>
 )
 
