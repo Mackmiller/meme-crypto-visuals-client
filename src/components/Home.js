@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router';
 // import { useNavigate } from 'react-router-dom'
 import {
     BarChart,
@@ -10,7 +11,7 @@ import {
     Legend,
     ResponsiveContainer,
   } from "recharts";
-
+import messages from './shared/AutoDismissAlert/messages'
 import apiUrl from '../apiConfig'
 
 const axios = require('axios')
@@ -23,6 +24,8 @@ const buttonStyling = {
     marginTop: "10px"
 }
 const Home = (props) => {
+
+    const navigate = useNavigate()
     
     // using the logo urls passed as props, map the logos into JSX list items
     // const allLinks = 
@@ -45,22 +48,31 @@ const Home = (props) => {
     const postFavorite = (c) => {
         // console.log('Pressed favorite button')
         // console.log(props.user)
-        return axios({
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${props.user.token}`
-            },
-            url: apiUrl + '/favorites',
-            data: {
-                favorite: {
-                    userId: props.user._id,
-                    name: c.name,
-                    price: c.quote.USD.price,
-                    symbol: c.symbol
+        if (props.user === null) {
+            props.msgAlert({
+                heading: 'Please Sign in',
+                message: messages.signUpSubsubscription,
+                variant: 'danger',
+              })
+              return navigate('/sign-in')
+        } else if (props.user) {
+            return axios({
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${props.user.token}`
                 },
-		    },
-        })
+                url: apiUrl + '/favorites',
+                data: {
+                    favorite: {
+                        userId: props.user._id,
+                        name: c.name,
+                        price: c.quote.USD.price,
+                        symbol: c.symbol
+                    },
+                },
+            })
+        }
     }
  
     // 1: display text data for coins
