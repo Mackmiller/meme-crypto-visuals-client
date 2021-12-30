@@ -10,6 +10,7 @@ import Header from './components/shared/Header'
 import RequireAuth from './components/shared/RequireAuth'
 import Home from './components/Home'
 import Favorites from './components/Favorites'
+import CoinInfo from './components/CoinInfo'
 import SignUp from './components/auth/SignUp'
 import SignIn from './components/auth/SignIn'
 import SignOut from './components/auth/SignOut'
@@ -21,13 +22,14 @@ const App = () => {
 	const [user, setUser] = useState(null)
 	const [foundFavorites, setFoundFavorites] = useState({})
 	const [msgAlerts, setMsgAlerts] = useState([])
+
 	let [logos, setLogos] = useState([])
     let [ids, setIds] = useState([])
     let [coins, setCoins] = useState([])
     const [loading, setLoading] = useState(false);
+
 	let url = "http://localhost:8000"
 	
-
 
     // -------- USE EFFECTS -----------
 
@@ -79,7 +81,7 @@ const App = () => {
     },[ids, url])
 
 	// useEffect that runs when user state changes
-	// Only runs getFavorites
+	// Gets user's favorites from database for favorite.js prop
 	useEffect(()=>{
 		const getFavorites = () => {
 			if(user){
@@ -95,76 +97,72 @@ const App = () => {
 		getFavorites()
 	}, [user])
   
-	console.log('user in app', user)
-	console.log('message alerts', msgAlerts)
+	// console.log('user in app', user)
+	// console.log('message alerts', msgAlerts)
 	const clearUser = () => {
 	  console.log('clear user ran')
 	  setUser(null)
 	}
   
-	  const deleteAlert = (id) => {
-		  setMsgAlerts((prevState) => {
-			  return (prevState.filter((msg) => msg.id !== id) )
-		  })
-	  }
+	const deleteAlert = (id) => {
+		setMsgAlerts((prevState) => {
+			return (prevState.filter((msg) => msg.id !== id) )
+		})
+	}
+
+	const msgAlert = ({ heading, message, variant }) => {
+		const id = uuid()
+		setMsgAlerts(() => {
+			return (
+				[{ heading, message, variant, id }]
+	)
+		})
+	}
   
-	  const msgAlert = ({ heading, message, variant }) => {
-		  const id = uuid()
-		  setMsgAlerts(() => {
-			  return (
-				  [{ heading, message, variant, id }]
-		)
-		  })
-	  }
+	return (
+		<Fragment>
+			<Header user={user} />
+			<Routes>
+				<Route path='/' element={<Home msgAlert={msgAlert} user={user} coins={coins} logos={logos} ids={ids} loading={loading}/>} />
+				<Route path='/favorites' element={<Favorites msgAlert={msgAlert} user={user} favorites={foundFavorites}/>} />
+				<Route path='/coin-info' element={<CoinInfo msgAlert={msgAlert} user={user} coins={coins} logos={logos} ids={ids} loading={loading}/>} />
 
-	  	// Function that when called get the users favorites based on user's Id
-	// This function sets the found data from the call to our foundProfile state
-	// Passed to components to ensure user state in App.js stats up to date
-
-
-  
-		  return (
-			  <Fragment>
-				  <Header user={user} />
-				  <Routes>
-					  <Route path='/' element={<Home msgAlert={msgAlert} user={user} coins={coins} logos={logos} ids={ids} loading={loading}/>} />
-					  <Route path='/favorites' element={<Favorites msgAlert={msgAlert} user={user} favorites={foundFavorites}/>} />
-					  <Route
-						  path='/sign-up'
-						  element={<SignUp msgAlert={msgAlert} setUser={setUser} />}
-					  />
-					  <Route
-						  path='/sign-in'
-						  element={<SignIn msgAlert={msgAlert} setUser={setUser} />}
-					  />
-			<Route
-			  path='/sign-out'
-			  element={
-				<RequireAuth user={user}>
-				  <SignOut msgAlert={msgAlert} clearUser={clearUser} user={user} />
-				</RequireAuth>
-			  }
-			/>
-			<Route
-			  path='/change-password'
-			  element={
-				<RequireAuth user={user}>
-				  <ChangePassword msgAlert={msgAlert} user={user} />
-				</RequireAuth>}
-			/>
-				  </Routes>
-				  {msgAlerts.map((msgAlert) => (
-					  <AutoDismissAlert
-						  key={msgAlert.id}
-						  heading={msgAlert.heading}
-						  variant={msgAlert.variant}
-						  message={msgAlert.message}
-						  id={msgAlert.id}
-						  deleteAlert={deleteAlert}
-					  />
-				  ))}
-			  </Fragment>
-		  )
+				<Route
+					path='/sign-up'
+					element={<SignUp msgAlert={msgAlert} setUser={setUser} />}
+				/>
+				<Route
+					path='/sign-in'
+					element={<SignIn msgAlert={msgAlert} setUser={setUser} />}
+				/>
+				<Route
+				path='/sign-out'
+				element={
+					<RequireAuth user={user}>
+					<SignOut msgAlert={msgAlert} clearUser={clearUser} user={user} />
+					</RequireAuth>
+				}
+				/>
+				<Route
+				path='/change-password'
+				element={
+					<RequireAuth user={user}>
+					<ChangePassword msgAlert={msgAlert} user={user} />
+					</RequireAuth>}
+				/>
+			</Routes>
+			{msgAlerts.map((msgAlert) => (
+				<AutoDismissAlert
+					key={msgAlert.id}
+					heading={msgAlert.heading}
+					variant={msgAlert.variant}
+					message={msgAlert.message}
+					id={msgAlert.id}
+					deleteAlert={deleteAlert}
+				/>
+			))}
+		</Fragment>
+	)
   }
   
   export default App

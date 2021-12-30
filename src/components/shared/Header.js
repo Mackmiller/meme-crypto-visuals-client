@@ -8,11 +8,11 @@ const linkStyle = {
 }
 const authenticatedOptions = (
 	<>
-		<Nav.Link>
+		{/* <Nav.Link>
 			<Link to='change-password' style={linkStyle}>
 				Change Password
 			</Link>
-		</Nav.Link>
+		</Nav.Link> */}
 		<Nav.Link>
 			<Link to='sign-out' style={linkStyle}>
 				Sign Out
@@ -23,6 +23,11 @@ const authenticatedOptions = (
 				Favorites
 			</Link>
 		</Nav.Link>
+		<Nav.Link>
+		    <Link to='coin-info' style={linkStyle}>
+				Explore Coins
+			</Link>
+        </Nav.Link>
 	</>
 )
 
@@ -33,6 +38,9 @@ const unauthenticatedOptions = (
         </Nav.Link>
         <Nav.Link>
 		    <Link to='sign-in' style={linkStyle}>Sign In</Link>
+        </Nav.Link>
+	 	<Nav.Link>
+		    <Link to='coin-info' style={linkStyle}>Explore Coins</Link>
         </Nav.Link>
 	</>
 )
