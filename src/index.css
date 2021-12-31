@@ -55,8 +55,29 @@ img {
   padding: 15px;
 }
 
+.favorites-list {
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.favorites-list h4 {
+  margin-top: 15px;
+}
+
+.favorites-list p {
+  text-align: justify;
+  margin: 0;
+}
+
 .visualization-display h3 {
   margin-left: 50px;
+  margin-bottom: 25px;
+  margin-top: 50px;
+  font-weight: bold;
+}
+
+.favorites-display h3 {
   margin-bottom: 25px;
   margin-top: 50px;
   font-weight: bold;

@@ -11,7 +11,7 @@ const CoinInfo = (props) => {
         // console.log(l.id)
             return (
                 <div className="col">
-                    <Card style={{minWidth: "400px"}}>
+                    <Card style={{minWidth: "400px", padding: "20px", border: "none"}}>
                         <li key={i} style={{listStyle: "none", display: "inline"}}>
                             <img src= {l.logo} alt="crypto logo"/>
                             <h4>{l.name}</h4>
@@ -28,10 +28,10 @@ const CoinInfo = (props) => {
             {props.loading? (
                 <div>Loading...</div>
             ) : (
-                <div style={{textAlign: "center"}}>
+                <div className="favorites-display" style={{textAlign: "center"}}>
                     <div className="subtitle">
                         <h3><strong>Explore the top coins and tokens</strong></h3>
-                        <p>test</p>
+                        <p>Explore the basic information of the top ten meme tokens and coins, including: price, supply, number of active markets, and daily volume traded. For additional information about each cryptocurrency, please see the website included in each description.</p>
                      </div>
                     <div className="row">
                         {props.logos? allLinks : console.log("no data")}
