@@ -18,7 +18,7 @@ This is a web application which allows users to view the top tokens and coins wi
 
 ## ERD visual
 
-<img alt="erd" src="basic_erd.png">
+<img alt="erd" src="updated_erd.png">
 
 ## Local Setup
 
