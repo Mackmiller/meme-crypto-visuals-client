@@ -83,19 +83,20 @@ const App = () => {
 	// useEffect that runs when user state changes
 	// Gets user's favorites from database for favorite.js prop
 	useEffect(()=>{
-		const getFavorites = () => {
-			if(user){
-				fetch(`http://localhost:8000/favorites/user/${user._id}`)
-				.then(res => res.json())
-				.then(foundObject => {
-					console.log("this is found object: ", foundObject)
-					setFoundFavorites(foundObject)
-				})
-				.catch(err => console.log('THIS IS ERR',err))
-			}
-		}
 		getFavorites()
 	}, [user])
+
+	const getFavorites = () => {
+		if(user){
+			fetch(`http://localhost:8000/favorites/user/${user._id}`)
+			.then(res => res.json())
+			.then(foundObject => {
+				console.log("this is found object: ", foundObject)
+				setFoundFavorites(foundObject)
+			})
+			.catch(err => console.log('THIS IS ERR',err))
+		}
+	}
   
 	// console.log('user in app', user)
 	// console.log('message alerts', msgAlerts)
@@ -124,7 +125,7 @@ const App = () => {
 			<Header user={user} />
 			<Routes>
 				<Route path='/' element={<Home msgAlert={msgAlert} user={user} coins={coins} logos={logos} ids={ids} loading={loading}/>} />
-				<Route path='/favorites' element={<Favorites msgAlert={msgAlert} user={user} favorites={foundFavorites}/>} />
+				<Route path='/favorites' element={<Favorites msgAlert={msgAlert} user={user} favorites={foundFavorites} getFavorites = {getFavorites}/>} />
 				<Route path='/coin-info' element={<CoinInfo msgAlert={msgAlert} user={user} coins={coins} logos={logos} ids={ids} loading={loading}/>} />
 
 				<Route
