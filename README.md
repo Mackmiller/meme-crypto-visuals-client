@@ -55,7 +55,7 @@ npm start
 
 ## Cloud Deployment
 
-Both the server and client repos are deployed on Heroku [here](https://meme-crypto-visuals.herokuapp.com/coin-info)
+Both the server and client repos are deployed on Heroku [here](https://meme-crypto-visuals.herokuapp.com/)
 
 ## Contributors
 
