@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 // import { useNavigate } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
 
 
 const CoinInfo = (props) => {
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true)
+        props.logos? setLoading(false) : setLoading(true)
+    
+	}, [])
     
     // using the logo urls passed as props, map the logos into JSX list items
     const allLinks = 
