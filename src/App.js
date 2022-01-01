@@ -15,7 +15,9 @@ import SignUp from './components/auth/SignUp'
 import SignIn from './components/auth/SignIn'
 import SignOut from './components/auth/SignOut'
 import ChangePassword from './components/auth/ChangePassword'
+import apiUrl from './apiConfig'
 const axios = require('axios')
+
 
 const App = () => {
 
@@ -28,7 +30,7 @@ const App = () => {
     let [coins, setCoins] = useState([])
     const [loading, setLoading] = useState(false);
 
-	let url = "http://localhost:8000"
+
 	
 
     // -------- USE EFFECTS -----------
@@ -36,7 +38,7 @@ const App = () => {
     // 1: run coinmarketcap api and store coin data
 	useEffect(() => {
         setLoading(true)
-        axios.get(url)
+        axios.get(apiUrl)
             .then(response => {
                 const coinData = response.data.data.coins
                 setCoins(coinData)
@@ -46,7 +48,7 @@ const App = () => {
                 console.log(err)
                 setLoading(false);
             })
-	}, [url])
+	}, [apiUrl])
 
     // 2: from the coins state set in step 1, take coin ids and save to another state, ids
     useEffect(() => {
@@ -68,7 +70,7 @@ const App = () => {
             ids.map((logoId, i)=>{
                 console.log("this is state ids", ids)
                 return (
-                    axios.get(`${url}/cryptocoin/${logoId.id}`)
+                    axios.get(`${apiUrl}/cryptocoin/${logoId.id}`)
                         .then(response => {
                             let logoLinks = response.data.data[logoId.id]
                             console.log("logoLinks: ", [logoLinks])
@@ -78,7 +80,7 @@ const App = () => {
                 )
             })
         }
-    },[ids, url])
+    },[ids, apiUrl])
 
 	// useEffect that runs when user state changes
 	// Gets user's favorites from database for favorite.js prop
@@ -88,7 +90,7 @@ const App = () => {
 
 	const getFavorites = () => {
 		if(user){
-			fetch(`http://localhost:8000/favorites/user/${user._id}`)
+			fetch(`${apiUrl}/favorites/user/${user._id}`)
 			.then(res => res.json())
 			.then(foundObject => {
 				console.log("this is found object: ", foundObject)
