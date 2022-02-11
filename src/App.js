@@ -103,13 +103,14 @@ const App = () => {
 	// this function is not included inside useEffect because it needs to be passed as a prop.
 	const getFavorites = () => {
 		if(user){
-			axios.get(`${apiUrl}/favorites/user/${user._id}`)
-				.then(res => res.json())
-				.then(foundObject => {
-					console.log("this is found object: ", foundObject)
-					setFoundFavorites(foundObject)
-				})
-				.catch(err => console.log('THIS IS ERR',err))
+			return (
+				axios.get(`${apiUrl}/favorites/user/${user._id}`)
+					.then(foundObject => {
+						console.log("this is found object: ", foundObject)
+						setFoundFavorites(foundObject)
+					})
+					.catch(err => console.log('THIS IS ERR',err)) 
+			)
 		}
 	}
   
