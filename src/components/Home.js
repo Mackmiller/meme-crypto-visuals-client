@@ -1,6 +1,5 @@
 import React from 'react'
 import { useNavigate } from 'react-router';
-// import { useNavigate } from 'react-router-dom'
 import {
     BarChart,
     Bar,
@@ -26,23 +25,6 @@ const buttonStyling = {
 const Home = (props) => {
 
     const navigate = useNavigate()
-    
-    // using the logo urls passed as props, map the logos into JSX list items
-    // const allLinks = 
-    //     props.logos.map((l, i)=>{
-    //     // console.log(l.id)
-    //         return (
-    //             <div className="col">
-    //                 <Card style={{minWidth: "400px"}}>
-    //                     <li key={i} style={{listStyle: "none", display: "inline"}}>
-    //                         <img src= {l.logo} alt="crypto logo"/>
-    //                         <h4>{l.name}</h4>
-    //                         <Card.Body>{l.description}</Card.Body>
-    //                     </li>
-    //                 </Card>
-    //             </div>
-    //         ) 
-    //     })
 
     // add coin to favorites database on button click
     const postFavorite = (c) => {
@@ -113,10 +95,6 @@ const Home = (props) => {
                 <div>Loading...</div>
             ) : (
                 <div style={{textAlign: "center"}}>
-                 
-                    {/* <div className="row">
-                        {props.logos? allLinks : console.log("no data")}
-                    </div> */}
                     <div className="visualization-display">
                         <h3>Total Market Value (USD) of Circulating Supply and Volume Traded in Past 24hrs</h3>
                         <div className="subtitle">

@@ -18,7 +18,6 @@ import ChangePassword from './components/auth/ChangePassword'
 import apiUrl from './apiConfig'
 const axios = require('axios')
 
-
 const App = () => {
 
 	const [user, setUser] = useState(null)
@@ -30,24 +29,37 @@ const App = () => {
     let [coins, setCoins] = useState([])
     const [loading, setLoading] = useState(false);
 
-
-	
-
     // -------- USE EFFECTS -----------
 
     // 1: run coinmarketcap api and store coin data
 	useEffect(() => {
         setLoading(true)
-        axios.get(apiUrl)
-            .then(response => {
-                const coinData = response.data.data.coins
-                setCoins(coinData)
-                setLoading(false)
-            })
-            .catch(err => {
-                console.log(err)
-                setLoading(false);
-            })
+		// OLD promise chain
+        // axios.get(apiUrl)
+        //     .then(response => {
+        //         const coinData = response.data.data.coins
+        //         setCoins(coinData)
+        //         setLoading(false)
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //         setLoading(false);
+        //     })
+
+		// REFACTORED async/await with try/catch block
+		const getCoinData = async () => {
+			try {
+				const resp = await axios.get(apiUrl)
+				const data = await resp.data.data.coins
+				setCoins(data)
+				setLoading(false)
+			} catch(error) {
+				console.log(error)
+				setLoading(false)
+			}
+		}
+		// call async/await function
+		getCoinData()
 	}, [apiUrl])
 
     // 2: from the coins state set in step 1, take coin ids and save to another state, ids
@@ -68,12 +80,12 @@ const App = () => {
     useEffect(() => {
         if(ids){
             ids.map((logoId, i)=>{
-                console.log("this is state ids", ids)
+                // console.log("this is state ids", ids)
                 return (
                     axios.get(`${apiUrl}/cryptocoin/${logoId.id}`)
                         .then(response => {
                             let logoLinks = response.data.data[logoId.id]
-                            console.log("logoLinks: ", [logoLinks])
+                            // console.log("logoLinks: ", [logoLinks])
                             setLogos(logos=>[...logos, logoLinks])
                         })
                         .catch(err => console.log(err))
@@ -84,26 +96,27 @@ const App = () => {
 
 	// useEffect that runs when user state changes
 	// Gets user's favorites from database for favorite.js prop
+	// run when there is a user logged in
 	useEffect(()=>{
 		getFavorites()
 	}, [user])
-
+	// this function is not included inside useEffect because it needs to be passed as a prop.
 	const getFavorites = () => {
 		if(user){
-			fetch(`${apiUrl}/favorites/user/${user._id}`)
-			.then(res => res.json())
-			.then(foundObject => {
-				console.log("this is found object: ", foundObject)
-				setFoundFavorites(foundObject)
-			})
-			.catch(err => console.log('THIS IS ERR',err))
+			axios.get(`${apiUrl}/favorites/user/${user._id}`)
+				.then(res => res.json())
+				.then(foundObject => {
+					console.log("this is found object: ", foundObject)
+					setFoundFavorites(foundObject)
+				})
+				.catch(err => console.log('THIS IS ERR',err))
 		}
 	}
   
 	// console.log('user in app', user)
 	// console.log('message alerts', msgAlerts)
 	const clearUser = () => {
-	  console.log('clear user ran')
+	//   console.log('clear user ran')
 	  setUser(null)
 	}
   

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react'
-// import { useNavigate } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
-
 
 const CoinInfo = (props) => {
     const [loading, setLoading] = useState(false);
@@ -29,7 +27,6 @@ const CoinInfo = (props) => {
             ) 
         })
 
-   
 	return (
         <>
             {props.loading? (

@@ -9,12 +9,10 @@ const Favorites = (props) => {
 
   // return a list of coin names from props
   const mapNames = props.favorites.favorites.map((favorite, i)=> {
-
     let date = new Date(favorite.createdAt)
     let d = date.getDate()
     let m = date.getMonth()+1
     let y = date.getFullYear()
-
     return <li key={i} style={{listStyle: "none"}} className="favorites-list">
               <h4>{favorite.name} ({favorite.symbol})</h4>
               <p>Date bookmarked: {m}/{d}/{y}</p>
@@ -32,4 +30,5 @@ const Favorites = (props) => {
     </div>
   )
 }
+
 export default Favorites

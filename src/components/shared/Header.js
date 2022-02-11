@@ -13,17 +13,17 @@ const authenticatedOptions = (
 				Change Password
 			</Link>
 		</Nav.Link> */}
-		<Nav.Link>
+		<Nav.Link as="div">
 			<Link to='sign-out' style={linkStyle}>
 				Sign Out
 			</Link>
 		</Nav.Link>
-		<Nav.Link>
+		<Nav.Link as="div">
 			<Link to='favorites' style={linkStyle}>
 				Favorites
 			</Link>
 		</Nav.Link>
-		<Nav.Link>
+		<Nav.Link as="div">
 		    <Link to='coin-info' style={linkStyle}>
 				Explore Coins
 			</Link>
@@ -33,13 +33,13 @@ const authenticatedOptions = (
 
 const unauthenticatedOptions = (
 	<>
-        <Nav.Link>
+        <Nav.Link as="div">
 		    <Link to='sign-up' style={linkStyle}>Sign Up</Link>
         </Nav.Link>
-        <Nav.Link>
+        <Nav.Link as="div">
 		    <Link to='sign-in' style={linkStyle}>Sign In</Link>
         </Nav.Link>
-	 	<Nav.Link>
+	 	<Nav.Link as="div">
 		    <Link to='coin-info' style={linkStyle}>Explore Coins</Link>
         </Nav.Link>
 	</>
