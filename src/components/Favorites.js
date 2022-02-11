@@ -8,7 +8,7 @@ const Favorites = (props) => {
   }, [])
 
   // return a list of coin names from props
-  const mapNames = props.favorites.favorites.map((favorite, i)=> {
+  const mapNames = props.favorites.map((favorite, i)=> {
     let date = new Date(favorite.createdAt)
     let d = date.getDate()
     let m = date.getMonth()+1
