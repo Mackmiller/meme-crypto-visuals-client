@@ -107,7 +107,7 @@ const App = () => {
 				axios.get(`${apiUrl}/favorites/user/${user._id}`)
 					.then(foundObject => {
 						let favoritesArray = foundObject.data.favorites
-						console.log("this is favorites array", favoritesArray)
+						// console.log("this is favorites array", favoritesArray)
 						setFoundFavorites(favoritesArray)
 					})
 					.catch(err => console.log('THIS IS ERR',err)) 
